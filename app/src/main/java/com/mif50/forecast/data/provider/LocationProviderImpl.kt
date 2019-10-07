@@ -10,6 +10,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.mif50.forecast.data.db.entity.WeatherLocation
 import com.mif50.forecast.internal.LocationPermissionNotGrantedException
 import com.mif50.forecast.internal.asDeferred
+import kotlin.math.abs
 
 const val USE_DEVICE_LOCATION = "USE_DEVICE_LOCATION"
 const val CUSTOM_LOCATION = "CUSTOM_LOCATION"
@@ -47,8 +48,8 @@ class LocationProviderImpl(
         val deviceLocation = getLastDeviceLocation() ?: return false
         // Comparing doubles cannot be done with "=="
         val comparisonThreshold = 0.03
-        return Math.abs(deviceLocation.latitude - lastWeatherLocation.lat) > comparisonThreshold &&
-                Math.abs(deviceLocation.longitude - lastWeatherLocation.lon) > comparisonThreshold
+        return abs(deviceLocation.latitude - lastWeatherLocation.lat) > comparisonThreshold &&
+                abs(deviceLocation.longitude - lastWeatherLocation.lon) > comparisonThreshold
     }
 
 
