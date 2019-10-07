@@ -13,15 +13,15 @@ import kotlin.coroutines.CoroutineContext
 abstract class BaseFragment : Fragment(), CoroutineScope {
 
     private lateinit var job: Job
-    override val  coroutineContext: CoroutineContext get() =job + Dispatchers.Main
+    override val coroutineContext: CoroutineContext get() = job + Dispatchers.Main
 
     lateinit var baseActivity: BaseActivity
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context != null) {
-            baseActivity = context as BaseActivity
-        }
+
+        baseActivity = context as BaseActivity
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,27 +31,27 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
     }
 
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(getLayoutRes().layout, container, false)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindView(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(getLayoutRes().layout, container, false)
-    }
 
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         if (getLayoutRes().menu != 0) {
-            inflater!!.inflate(getLayoutRes().menu, menu)
+            inflater.inflate(getLayoutRes().menu, menu)
             onMenuCreated(menu)
         }
         super.onCreateOptionsMenu(menu, inflater)
 
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        onMenuItemClickListener(item, item!!.itemId)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        onMenuItemClickListener(item, item.itemId)
         return super.onOptionsItemSelected(item)
 
     }

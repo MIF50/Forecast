@@ -10,6 +10,6 @@ class CurrentWeatherViewModelFactory(private val forecastRepository: ForecastRep
                                      private val unitProvider: UnitProvider) : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return CurrentWeatherViewModel(forecastRepository, unitProvider) as T
+        return CurrentBaseViewModel(forecastRepository, unitProvider) as T
     }
 }

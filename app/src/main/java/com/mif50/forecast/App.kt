@@ -14,29 +14,42 @@ import com.mif50.forecast.data.remote.*
 import com.mif50.forecast.data.repository.ForecastRepository
 import com.mif50.forecast.data.repository.ForecastRepositoryImpl
 import com.mif50.forecast.ui.weather.current.CurrentWeatherViewModelFactory
+import com.mif50.forecast.ui.weather.future.details.FutureDetailWeatherViewModelFactory
+import com.mif50.forecast.ui.weather.future.list.FutureListWeatherViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
-import org.kodein.di.generic.singleton
+import org.kodein.di.generic.*
+import org.threeten.bp.LocalDate
 
 
 class App : Application(), KodeinAware {
+
     override val kodein = Kodein.lazy {
         import(androidXModule(this@App)) // provide context to use by kodein
+
         bind() from singleton { ForecastDatabase(instance()) } // instance here refer to context form androidXModule
         bind() from singleton { instance<ForecastDatabase>().currentWeatherDao() }
         bind() from singleton { instance<ForecastDatabase>().weatherLocationDao() }
+        bind() from singleton { instance<ForecastDatabase>().futureWeatherDao() }
+
         bind<ConnectivityInterceptor>() with singleton { ConnectivityInterceptorImpl(instance()) } // instance here refer to context from androidXModule
         bind() from singleton { ApiServices(instance()) } // instance here refer to ConnectivityInterceptor
+
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) } // instance here refer to ApiService
+
         bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>()) }
         bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance()) }
-        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(), instance(), instance()) } // instance , instance , instance , instance here refer to (CurrentWeatherDao,WeatherNetworkDataSource,WeatherNetworkDataSource,LocationProvider)
+
+        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(), instance(), instance(),instance()) } //  refer to (CurrentWeatherDao, WeatherNetworkDataSource, WeatherNetworkDataSource, LocationProvider)
+
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) } // instance refer to context
+
         bind() from provider { CurrentWeatherViewModelFactory(instance(), instance()) }// instance refer to ForecastRepository , UnitProvider
+
+        bind() from provider { FutureListWeatherViewModelFactory(instance(), instance()) }
+
+        bind() from factory { detailDate: LocalDate -> FutureDetailWeatherViewModelFactory(detailDate, instance(), instance()) }
     }
 
     override fun onCreate() {
