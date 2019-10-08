@@ -13,22 +13,35 @@ import com.mif50.forecast.data.db.entity.CurrentWeatherEntry
 import com.mif50.forecast.data.db.entity.FutureWeatherEntry
 import com.mif50.forecast.data.db.entity.WeatherLocation
 
-@Database(entities = [CurrentWeatherEntry::class,WeatherLocation::class,FutureWeatherEntry::class], version = 1)
+@Database(
+    entities = [
+        CurrentWeatherEntry::class,
+        WeatherLocation::class,
+        FutureWeatherEntry::class
+    ], version = 1
+)
 @TypeConverters(LocalDateConverter::class)
-abstract class ForecastDatabase: RoomDatabase(){
+abstract class ForecastDatabase : RoomDatabase() {
+
     abstract fun currentWeatherDao(): CurrentWeatherDao
     abstract fun weatherLocationDao(): WeatherLocationDao
     abstract fun futureWeatherDao(): FutureWeatherDao
 
     companion object {
-        @Volatile private var instance: ForecastDatabase? = null
+        @Volatile
+        private var instance: ForecastDatabase? = null
         private val LOCK = Any()
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK){
+
+        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
             instance ?: buildDatabase(context).also { instance = it }
         }
 
         private fun buildDatabase(context: Context) = Room
-            .databaseBuilder(context.applicationContext,ForecastDatabase::class.java,"forecast.db")
+            .databaseBuilder(
+                context.applicationContext,
+                ForecastDatabase::class.java,
+                "forecast.db"
+            )
             .build()
     }
 }

@@ -9,7 +9,11 @@ import com.mif50.forecast.internal.NoConnectivityException
 
 const val FORECAST_DAYS_COUNT = 7
 
-class WeatherNetworkDataSourceImpl(private val apiServices: ApiServices) : WeatherNetworkDataSource {
+class WeatherNetworkDataSourceImpl(
+
+    private val apiServices: ApiServices
+
+) : WeatherNetworkDataSource {
 
     private val _downloadsCurrentWeather = MutableLiveData<CurrentWeatherResponse>()
     override val downloadedCurrentWeather: LiveData<CurrentWeatherResponse> get() = _downloadsCurrentWeather

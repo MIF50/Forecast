@@ -8,7 +8,9 @@ import org.threeten.bp.LocalDate
 
 class FutureListWeatherViewModel(
         private val forecastRepository: ForecastRepository,
-        unitProvider: UnitProvider) : BaseViewModel(forecastRepository, unitProvider) {
+        unitProvider: UnitProvider
+
+) : BaseViewModel(forecastRepository, unitProvider) {
 
     val weatherEntries by lazyDeferred {
         forecastRepository.getFutureWeatherList(LocalDate.now(), super.isMetricUnit)

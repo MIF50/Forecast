@@ -17,7 +17,9 @@ const val CUSTOM_LOCATION = "CUSTOM_LOCATION"
 
 class LocationProviderImpl(
         private val fusedLocationProviderClient: FusedLocationProviderClient,
-        context: Context) : PreferenceProvider(context), LocationProvider {
+        context: Context
+
+) : PreferenceProvider(context), LocationProvider {
 
     private val appContext = context.applicationContext
 
