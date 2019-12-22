@@ -21,11 +21,11 @@ class CurrentWeatherFragment : BaseFragment(), KodeinAware {
 
     override val kodein by closestKodein()
     private val viewModelFactory: CurrentWeatherViewModelFactory by instance()
-    private lateinit var viewModel: CurrentWeatherViewModel
+    private lateinit var viewModel: CurrentBaseViewModel
 
 
     override fun bindView(savedInstanceState: Bundle?) {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CurrentWeatherViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CurrentBaseViewModel::class.java)
         bindUI()
 
 //        val apiService = ApiServices(ConnectivityInterceptorImpl(this.context!!))
@@ -78,7 +78,7 @@ class CurrentWeatherFragment : BaseFragment(), KodeinAware {
     }
 
     private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
-        return if (viewModel.isMetric) metric else imperial
+        return if (viewModel.isMetricUnit) metric else imperial
     }
 
 }

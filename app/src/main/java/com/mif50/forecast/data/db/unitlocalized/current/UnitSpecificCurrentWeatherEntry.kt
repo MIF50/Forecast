@@ -1,4 +1,4 @@
-package com.mif50.forecast.data.db.unitlocalized
+package com.mif50.forecast.data.db.unitlocalized.current
 
 interface UnitSpecificCurrentWeatherEntry{
     val temperature: Double

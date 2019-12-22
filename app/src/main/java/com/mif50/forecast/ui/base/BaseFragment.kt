@@ -13,7 +13,7 @@ import kotlin.coroutines.CoroutineContext
 abstract class BaseFragment : Fragment(), CoroutineScope {
 
     private lateinit var job: Job
-    override val  coroutineContext: CoroutineContext get() =job + Dispatchers.Main
+    override val coroutineContext: CoroutineContext get() = job + Dispatchers.Main
 
     lateinit var baseActivity: BaseActivity
 
@@ -31,13 +31,13 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
     }
 
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(getLayoutRes().layout, container, false)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindView(savedInstanceState)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(getLayoutRes().layout, container, false)
     }
 
 
