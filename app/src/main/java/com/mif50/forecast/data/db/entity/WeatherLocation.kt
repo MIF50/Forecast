@@ -11,20 +11,40 @@ const val WEATHER_LOCATION_ID = 0
 
 @Entity(tableName = "weather_location")
 data class WeatherLocation(
-        @SerializedName("country") val country: String,
-        @SerializedName("lat") val lat: Double,
-        @SerializedName("lon") val lon: Double,
-        @SerializedName("name") val name: String,
-        @SerializedName("region") val region: String,
-        @SerializedName("tz_id") val tzId: String,
-        @SerializedName("localtime_epoch") val localtimeEpoch: Long) {
+        @SerializedName("country")
+        val country: String,
+
+        @SerializedName("lat")
+        val lat: String,
+        
+        @SerializedName("localtime")
+        val localTime: String,
+
+        @SerializedName("localtime_epoch")
+        val localtimeEpoch: Long,
+
+        @SerializedName("lon")
+        val lon: String,
+
+        @SerializedName("name")
+        val name: String,
+
+        @SerializedName("region")
+        val region: String,
+
+        @SerializedName("timezone_id")
+        val timezoneId: String,
+
+        @SerializedName("utc_offset")
+        val utcOffset: String
+) {
 
     @PrimaryKey(autoGenerate = false)
     var id: Int = WEATHER_LOCATION_ID
 
     val zonedDateTime: ZonedDateTime get() {
             val instant = Instant.ofEpochSecond(localtimeEpoch)
-            val zoneId = ZoneId.of(tzId)
+            val zoneId = ZoneId.of(timezoneId)
             return ZonedDateTime.ofInstant(instant, zoneId)
         }
 }

@@ -9,14 +9,18 @@ import com.mif50.forecast.internal.NoConnectivityException
 
 const val FORECAST_DAYS_COUNT = 7
 
-class WeatherNetworkDataSourceImpl(private val apiServices: ApiServices) : WeatherNetworkDataSource {
+class WeatherNetworkDataSourceImpl(
+
+    private val apiServices: ApiServices
+
+) : WeatherNetworkDataSource {
 
     private val _downloadsCurrentWeather = MutableLiveData<CurrentWeatherResponse>()
     override val downloadedCurrentWeather: LiveData<CurrentWeatherResponse> get() = _downloadsCurrentWeather
 
     override suspend fun fetchCurrentWeather(location: String, languageCode: String) {
         try {
-            val fetchCurrentWeather = apiServices.getCurrentWeatherAsync(location, languageCode).await()
+            val fetchCurrentWeather = apiServices.getCurrentWeatherAsync(location).await()
             _downloadsCurrentWeather.postValue(fetchCurrentWeather)
         } catch (e: NoConnectivityException) {
             Log.e("Connectivity", "No internet connection", e)
@@ -28,7 +32,7 @@ class WeatherNetworkDataSourceImpl(private val apiServices: ApiServices) : Weath
 
     override suspend fun fetchFutureWeather(location: String, languageCode: String) {
         try {
-            val fetchedFutureWeather = apiServices.getFutureWeatherAsync(location, FORECAST_DAYS_COUNT, languageCode).await()
+            val fetchedFutureWeather = apiServices.getFutureWeatherAsync(location, FORECAST_DAYS_COUNT).await()
             _downloadedFutureWeather.postValue(fetchedFutureWeather)
         }
         catch (e: NoConnectivityException) {

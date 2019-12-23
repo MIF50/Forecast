@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.mif50.forecast.R
-import com.mif50.forecast.data.db.LocalDateConverter
+import com.mif50.forecast.data.db.converter.LocalDateConverter
 import com.mif50.forecast.internal.DateNotFoundException
 import com.mif50.forecast.internal.glide.GlideApp
 import com.mif50.forecast.ui.base.BaseFragment

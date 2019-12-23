@@ -3,19 +3,28 @@ package com.mif50.forecast.data.db.unitlocalized.current
 import androidx.room.ColumnInfo
 
 data class MetricCurrentWeatherEntry(
-        @ColumnInfo(name = "tempC")
+        @ColumnInfo(name = "temperature")
         override val temperature: Double,
-        @ColumnInfo(name = "condition_text")
+
+        @ColumnInfo(name = "weatherDescriptions")
         override val conditionText: String,
-        @ColumnInfo(name = "condition_icon")
+
+        @ColumnInfo(name = "weatherCode")
         override val conditionIconUrl: String,
-        @ColumnInfo(name = "windKph")
+
+        @ColumnInfo(name = "windSpeed")
         override val windSpeed: Double,
+
         @ColumnInfo(name = "windDir")
         override val windDirection: String,
-        @ColumnInfo(name = "precipMm")
+
+        @ColumnInfo(name = "precIp")
         override val precipitationVolume: Double,
-        @ColumnInfo(name = "feelslikeC")
+
+        @ColumnInfo(name = "feelsLike")
         override val feelsLikeTemperature: Double,
-        @ColumnInfo(name = "visKm")
-        override val visibilityDistance: Double): UnitSpecificCurrentWeatherEntry
+
+        @ColumnInfo(name = "visibility")
+        override val visibilityDistance: Double
+
+): UnitSpecificCurrentWeatherEntry

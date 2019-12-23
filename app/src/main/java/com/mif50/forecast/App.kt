@@ -24,19 +24,27 @@ import org.threeten.bp.LocalDate
 
 
 class App : Application(), KodeinAware {
+
     override val kodein = Kodein.lazy {
         import(androidXModule(this@App)) // provide context to use by kodein
+
         bind() from singleton { ForecastDatabase(instance()) } // instance here refer to context form androidXModule
         bind() from singleton { instance<ForecastDatabase>().currentWeatherDao() }
         bind() from singleton { instance<ForecastDatabase>().weatherLocationDao() }
         bind() from singleton { instance<ForecastDatabase>().futureWeatherDao() }
+
         bind<ConnectivityInterceptor>() with singleton { ConnectivityInterceptorImpl(instance()) } // instance here refer to context from androidXModule
         bind() from singleton { ApiServices(instance()) } // instance here refer to ConnectivityInterceptor
+
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) } // instance here refer to ApiService
+
         bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>()) }
         bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance()) }
-        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(), instance(), instance(),instance()) } // instance , instance , instance , instance here refer to (CurrentWeatherDao,WeatherNetworkDataSource,WeatherNetworkDataSource,LocationProvider)
+
+        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(), instance(), instance(),instance()) } //  refer to (CurrentWeatherDao, WeatherNetworkDataSource, WeatherNetworkDataSource, LocationProvider)
+
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) } // instance refer to context
+
         bind() from provider { CurrentWeatherViewModelFactory(instance(), instance()) }// instance refer to ForecastRepository , UnitProvider
 
         bind() from provider { FutureListWeatherViewModelFactory(instance(), instance()) }
